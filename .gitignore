@@ -1,0 +1,75 @@
+# Environment Variables
+.env
+.env.local
+.env.*.local
+.env*.js
+
+# API Keys & Secrets
+*.key
+*.pem
+secrets.json
+config.local.json
+
+# OS Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# IDE & Editor
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.atom/
+*.swp
+*.swo
+*~
+.project
+.classpath
+*.c9/
+*.iml
+*.sublime-workspace
+
+# Build Artifacts
+dist/
+build/
+*.o
+*.a
+*.so
+
+# Node Modules (if using Node.js build tools)
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# Logs
+*.log
+logs/
+
+# Temporary Files
+tmp/
+temp/
+*.tmp
+*.bak
+
+# Testing
+coverage/
+.nyc_output/
+
+# Misc
+.cache/
+*.old
+*.backup
+
+# DO NOT IGNORE (important files to track)
+!.github/
+!index.html
+!README.md
+!DEPLOYMENT.md

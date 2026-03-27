@@ -12,7 +12,9 @@ export default async function handler(req, res) {
 
   try {
     const { message, image } = req.body;
-    const API_KEY = process.env.GEMINI_API_KEY; // Vercel සිතු ගබඩා වලින්
+    
+    // ඔබේ API KEY එක මෙතැනට සෘජුවම ඇතුළත් කර ඇත
+    const API_KEY = "AIzaSyD-LCJ28g3NXW4eVmjdAt_sRd4nhKI8VoU"; 
 
     const requestBody = {
       contents: [{

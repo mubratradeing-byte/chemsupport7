@@ -1,0 +1,168 @@
+{
+  "app": {
+    "name": "Mubra AI 8.v1",
+    "version": "8.v1",
+    "subtitle": "Advanced Chemistry Intelligence",
+    "description": "Professional A/L Chemistry AI Assistant for Sri Lankan Students",
+    "language": "Sinhala Medium",
+    "author": "Mubra Webworks",
+    "sponsor": "Mubra Trading"
+  },
+
+  "theme": {
+    "primary": "#001F3F",
+    "secondary": "#003D7A",
+    "accent": "#D4AF37",
+    "accentDark": "#B8860B",
+    "background": "#F5F5F5",
+    "text": "#333333",
+    "white": "#FFFFFF",
+    "border": "#E0E0E0",
+    "shadow": "0 4px 20px rgba(0, 31, 63, 0.15)",
+    "shadowLarge": "0 8px 32px rgba(0, 31, 63, 0.25)"
+  },
+
+  "layout": {
+    "sidebarWidth": "320px",
+    "headerHeight": "60px",
+    "maxChatWidth": "85%",
+    "borderRadius": "8px"
+  },
+
+  "api": {
+    "provider": "Google Generative AI",
+    "model": "gemini-2.0-flash",
+    "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent",
+    "timeout": 30000,
+    "retries": 3,
+    "generationConfig": {
+      "temperature": 0.7,
+      "topK": 40,
+      "topP": 0.95,
+      "maxOutputTokens": 2048
+    }
+  },
+
+  "systemPrompt": {
+    "language": "Sinhala",
+    "role": "Sri Lankan A/L Chemistry Expert",
+    "style": "Academic Marking Scheme",
+    "subjects": [
+      "Organic Chemistry",
+      "Inorganic Chemistry",
+      "Physical Chemistry"
+    ],
+    "tone": "Professional, Educational, Detailed",
+    "instruction": "Respond ONLY in Sinhala Medium. Provide professional, academic marking-scheme style explanations with deep chemical understanding and detailed descriptions."
+  },
+
+  "pastPapers": {
+    "startYear": 1985,
+    "endYear": 2025,
+    "years": [
+      2025, 2024, 2023, 2022, 2021, 2020, 2019, 2018, 
+      2015, 2010, 2005, 2000, 1995, 1990, 1985
+    ],
+    "examTypes": ["A/L", "O/L"],
+    "papers": ["Paper 1", "Paper 2", "Paper 3"]
+  },
+
+  "features": {
+    "systemActivation": true,
+    "activationCodeLength": 16,
+    "activationCodeFormat": "XXXX-XXXX-XXXX-XXXX",
+    "imageUpload": true,
+    "mathRendering": true,
+    "mathEngine": "KaTeX",
+    "responseStreaming": false,
+    "offlineMode": false,
+    "darkMode": false
+  },
+
+  "security": {
+    "requireActivation": true,
+    "validateApiKey": true,
+    "enableCors": true,
+    "sanitizeInput": true,
+    "maxInputLength": 5000,
+    "maxImageSize": 5242880,
+    "allowedImageFormats": ["image/jpeg", "image/png", "image/webp", "image/gif"]
+  },
+
+  "ui": {
+    "animationsEnabled": true,
+    "animationDuration": 300,
+    "smoothScroll": true,
+    "responsiveBreakpoints": {
+      "mobile": 480,
+      "tablet": 768,
+      "desktop": 1024,
+      "largeDesktop": 1440
+    }
+  },
+
+  "branding": {
+    "logoType": "SVG",
+    "logoPosition": "top-left-sidebar",
+    "companyName": "Mubra Webworks",
+    "sponsor": "Mubra Trading",
+    "showBranding": true,
+    "hideThirdPartyReferences": true,
+    "stealthMode": true
+  },
+
+  "chat": {
+    "userBubbleColor": "#001F3F",
+    "aiBubbleColor": "#FFFFFF",
+    "aiBubbleBorder": "2px solid #D4AF37",
+    "maxBubbleWidth": "70%",
+    "messagePadding": "14px 18px",
+    "messageGap": "15px"
+  },
+
+  "footer": {
+    "showPowerBy": true,
+    "powerByText": "Powered by Mubra Webworks",
+    "showSponsor": true,
+    "sponsorText": "Main Sponsor: Mubra Trading"
+  },
+
+  "performance": {
+    "lazyLoadImages": true,
+    "cacheResponses": true,
+    "compressionEnabled": true,
+    "minifyCss": true,
+    "minifyJs": true
+  },
+
+  "deployment": {
+    "platform": "GitHub Pages",
+    "domain": "yourusername.github.io/mubra-ai-8",
+    "customDomain": "optional",
+    "https": true,
+    "autoRedirectHttp": true
+  },
+
+  "metadata": {
+    "title": "Mubra AI 8.v1 - Advanced Chemistry Intelligence",
+    "description": "Professional AI-powered chemistry tutoring system for Sri Lankan A/L students",
+    "keywords": ["chemistry", "A/L", "Sri Lanka", "AI", "tutor", "sinhala"],
+    "viewport": "width=device-width, initial-scale=1.0",
+    "charset": "UTF-8"
+  },
+
+  "optional": {
+    "progressTracking": false,
+    "userAnalytics": false,
+    "feedbackSystem": false,
+    "mockExams": false,
+    "videoIntegration": false,
+    "collaborativeMode": false,
+    "downloadPDF": false
+  },
+
+  "version": "8.v1",
+  "lastUpdated": "2025-03-27",
+  "status": "Production Ready",
+  "note": "Do NOT expose API keys in this file. Use environment variables or GitHub Secrets."
+}

@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mubra AI 8.v1 - Advanced Chemistry Intelligence</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #001F3F;
+            --secondary: #003D7A;
+            --gold: #D4AF37;
+            --gold-dark: #B8860B;
+            --white: #FFFFFF;
+            --light-gray: #F5F5F5;
+            --dark-gray: #333333;
+            --border: #E0E0E0;
+            --shadow: 0 4px 20px rgba(0, 31, 63, 0.15);
+            --shadow-lg: 0 8px 32px rgba(0, 31, 63, 0.25);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #001F3F 0%, #003D7A 100%);
+            color: var(--dark-gray);
+            overflow: hidden;
+            min-height: 100vh;
+        }
+
+        /* ===== CONTAINER LAYOUT ===== */
+        .container {
+            display: flex;
+            height: 100vh;
+            gap: 0;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: 320px;
+            background: var(--primary);
+            color: var(--white);
+            display: flex;
+            flex-direction: column;
+            border-right: 2px solid var(--gold);
+            box-shadow: var(--shadow-lg);
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 30px 20px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            text-align: center;
+        }
+
+        .logo-container {
+            margin-bottom: 20px;
+            animation: slideInDown 0.8s ease-out;
+        }
+
+        .logo-svg {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 15px;
+            filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.4));
+        }
+
+        .logo-text {
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--gold);
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo-subtitle {
+            font-size: 10px;
+            letter-spacing: 1px;
+            color: rgba(212, 175, 55, 0.8);
+            text-transform: uppercase;
+        }
+
+        .past-papers-section {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .papers-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--gold);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .papers-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .paper-btn {
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid var(--gold);
+            color: var(--white);
+            padding: 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .paper-btn:hover {
+            background: var(--gold);
+            color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+        }
+
+        .sidebar-footer {
+            padding: 20px;
+            border-top: 1px solid rgba(212, 175, 55, 0.3);
+            font-size: 10px;
+            color: rgba(212, 175, 55, 0.9);
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--light-gray);
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            background: var(--white);
+            border-bottom: 2px solid var(--gold);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+        }
+
+        .header-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: 1px;
+        }
+
+        .activation-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: 2px solid var(--gold);
+            color: var(--white);
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .activation-btn:hover {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+            transform: scale(1.05);
+        }
+
+        /* ===== CHAT AREA ===== */
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(180deg, #F9F9F9 0%, #FFFFFF 100%);
+            overflow: hidden;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            display: flex;
+            gap: 10px;
+            animation: fadeInUp 0.4s ease-out;
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message-bubble {
+            max-width: 70%;
+            padding: 14px 18px;
+            border-radius: 12px;
+            word-wrap: break-word;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        .message.user .message-bubble {
+            background: var(--primary);
+            color: var(--white);
+            border-bottom-right-radius: 4px;
+            box-shadow: var(--shadow);
+        }
+
+        .message.ai .message-bubble {
+            background: var(--white);
+            color: var(--dark-gray);
+            border: 2px solid var(--gold);
+            border-bottom-left-radius: 4px;
+            box-shadow: var(--shadow);
+        }
+
+        .katex-display {
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+
+        .message-image {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 8px;
+            margin-top: 10px;
+            border: 1px solid var(--border);
+        }
+
+        /* ===== INPUT AREA ===== */
+        .chat-input-area {
+            padding: 20px 30px;
+            background: var(--white);
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+        }
+
+        .input-wrapper {
+            flex: 1;
+            display: flex;
+            gap: 8px;
+            align-items: flex-end;
+        }
+
+        #messageInput {
+            flex: 1;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px 15px;
+            font-size: 14px;
+            font-family: inherit;
+            resize: none;
+            max-height: 100px;
+            transition: border-color 0.3s ease;
+        }
+
+        #messageInput:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        .icon-btn {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--border);
+            background: var(--white);
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .icon-btn:hover {
+            background: var(--primary);
+            color: var(--gold);
+            border-color: var(--gold);
+            transform: scale(1.1);
+        }
+
+        #sendBtn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            color: var(--white);
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        #sendBtn:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+
+        #sendBtn:active {
+            transform: translateY(0);
+        }
+
+        #cameraInput {
+            display: none;
+        }
+
+        /* ===== MODAL ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: var(--shadow-lg);
+            animation: slideInUp 0.4s ease-out;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            border-bottom: 2px solid var(--gold);
+            padding-bottom: 15px;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--dark-gray);
+            transition: color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: var(--gold);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 14px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .btn-primary, .btn-secondary {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            border: 2px solid transparent;
+        }
+
+        .btn-primary:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--light-gray);
+            color: var(--primary);
+            border: 2px solid var(--gold);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gold);
+            color: var(--white);
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.6));
+            }
+            50% {
+                filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.9));
+            }
+        }
+
+        .wolf-eyes {
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--gold);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gold-dark);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                max-height: 40vh;
+                border-right: none;
+                border-bottom: 2px solid var(--gold);
+            }
+
+            .message-bubble {
+                max-width: 85%;
+            }
+
+            .modal-content {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-container">
+                    <svg class="logo-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Inverted Triangle Background -->
+                        <defs>
+                            <filter id="wolfGlow">
+                                <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                                <feMerge>
+                                    <feMergeNode in="coloredBlur"/>
+                                    <feMergeNode in="SourceGraphic"/>
+                                </feMerge>
+                            </filter>
+                        </defs>
+
+                        <!-- Metallic Gold Ring (Outer) -->
+                        <circle cx="100" cy="100" r="95" fill="none" stroke="#D4AF37" stroke-width="3" opacity="0.7"/>
+                        <circle cx="100" cy="100" r="88" fill="none" stroke="#FFD700" stroke-width="1" opacity="0.5"/>
+
+                        <!-- Inverted Triangle -->
+                        <path d="M 50 70 L 150 70 L 100 150 Z" fill="none" stroke="white" stroke-width="2"/>
+
+                        <!-- Wolf Head - Faceted Polygonal Style -->
+                        <!-- Left Ear -->
+                        <path d="M 75 60 L 70 40 L 80 50 Z" fill="white" stroke="white" stroke-width="1.5"/>
+                        <!-- Right Ear -->
+                        <path d="M 125 60 L 130 40 L 120 50 Z" fill="white" stroke="white" stroke-width="1.5"/>
+
+                        <!-- Face Planes -->
+                        <path d="M 70 75 L 90 65 L 100 80 Z" fill="rgba(255,255,255,0.6)" stroke="white" stroke-width="1"/>
+                        <path d="M 130 75 L 110 65 L 100 80 Z" fill="rgba(255,255,255,0.6)" stroke="white" stroke-width="1"/>
+
+                        <!-- Snout -->
+                        <path d="M 80 90 L 120 90 L 110 105 L 90 105 Z" fill="white" stroke="white" stroke-width="1.5"/>
+
+                        <!-- Left Eye (Gold Glow) -->
+                        <circle class="wolf-eyes" cx="85" cy="80" r="4" fill="#D4AF37" filter="url(#wolfGlow)"/>
+                        <circle cx="85" cy="80" r="2" fill="white"/>
+
+                        <!-- Right Eye (Gold Glow) -->
+                        <circle class="wolf-eyes" cx="115" cy="80" r="4" fill="#D4AF37" filter="url(#wolfGlow)"/>
+                        <circle cx="115" cy="80" r="2" fill="white"/>
+
+                        <!-- Nose -->
+                        <polygon points="100,95 97,100 103,100" fill="#D4AF37"/>
+
+                        <!-- Jaw Line -->
+                        <path d="M 80 105 L 120 105 L 115 115 L 85 115 Z" fill="rgba(255,255,255,0.4)" stroke="white" stroke-width="1"/>
+
+                        <!-- Gold Ring (Inner - Interweaving) -->
+                        <circle cx="100" cy="100" r="60" fill="none" stroke="#D4AF37" stroke-width="2" opacity="0.6"/>
+                        <circle cx="100" cy="100" r="55" fill="none" stroke="#FFD700" stroke-width="1" opacity="0.4"/>
+                    </svg>
+                </div>
+                <div class="logo-text">Mubra AI</div>
+                <div class="logo-subtitle">Advanced Chemistry Intelligence 8.v1</div>
+            </div>
+
+            <div class="past-papers-section">
+                <div class="papers-label">📚 Past Papers (1985-2025)</div>
+                <div class="papers-grid">
+                    <button class="paper-btn">2025 A/L</button>
+                    <button class="paper-btn">2024 A/L</button>
+                    <button class="paper-btn">2023 A/L</button>
+                    <button class="paper-btn">2022 A/L</button>
+                    <button class="paper-btn">2021 A/L</button>
+                    <button class="paper-btn">2020 A/L</button>
+                    <button class="paper-btn">2019 A/L</button>
+                    <button class="paper-btn">2018 A/L</button>
+                    <button class="paper-btn">2015 A/L</button>
+                    <button class="paper-btn">2010 A/L</button>
+                    <button class="paper-btn">2005 A/L</button>
+                    <button class="paper-btn">2000 A/L</button>
+                </div>
+            </div>
+
+            <div class="sidebar-footer">
+                <div>Powered by Mubra Webworks</div>
+                <div style="margin-top: 8px; border-top: 1px solid rgba(212, 175, 55, 0.3); padding-top: 8px;">
+                    Main Sponsor: Mubra Trading
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <!-- HEADER -->
+            <header class="header">
+                <div class="header-title">🧪 Advanced Chemistry Intelligence</div>
+                <button class="activation-btn" id="activationBtn">
+                    <i class="fas fa-shield-alt"></i> System Activation
+                </button>
+            </header>
+
+            <!-- CHAT CONTAINER -->
+            <div class="chat-container">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message ai">
+                        <div class="message-bubble">
+                            ආයුබෝවන්! 🙏 මම Mubra AI 8.v1 - ඔබේ ශ්‍රී ලංකා A/L රසායන විද්‍යා ගුරුවරයි. කිසිදු ප්‍රශ්නයක් අසන්න හෝ කිසිදු පිටු ප්‍රතිකර අවශ්‍ය වුවහොත් කරුණාකර මට කියන්න. 🧬
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CHAT INPUT -->
+                <div class="chat-input-area">
+                    <div class="input-wrapper">
+                        <button class="icon-btn" id="cameraBtn" title="Upload Image">
+                            <i class="fas fa-camera"></i>
+                        </button>
+                        <textarea id="messageInput" placeholder="ඔබගේ ප්‍රශ්නය ලියන්න..." rows="1"></textarea>
+                    </div>
+                    <button id="sendBtn">📤 Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ACTIVATION MODAL -->
+    <div class="modal" id="activationModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">🔐 System Activation</h2>
+                <button class="close-btn" id="closeModal">&times;</button>
+            </div>
+            <div class="form-group">
+                <label class="form-label">16-Digit Activation Code</label>
+                <input type="text" class="form-input" id="activationCode" placeholder="1234-5678-9012-3456" maxlength="19">
+                <small style="color: #999; display: block; margin-top: 8px;">Example: 1234-5678-9012-3456</small>
+            </div>
+            <div class="modal-buttons">
+                <button class="btn-secondary" id="cancelBtn">Cancel</button>
+                <button class="btn-primary" id="confirmBtn">Activate System</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden Camera Input -->
+    <input type="file" id="cameraInput" accept="image/*">
+
+    <script>
+        // ===== CONFIGURATION =====
+        const CONFIG = {
+            API_KEY: 'YOUR_GEMINI_API_KEY_HERE', // Replace with actual key
+            API_URL: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent',
+            SYSTEM_PROMPT: `ඔබ "Mubra AI 8.v1" - ශ්‍රී ලංකා A/L රසායන විද්‍යා විශේෂඥයි. 
+සිංහල මාධ්‍ය භාෂාවෙන් පමණක් පිළිතුරු දෙන්න.
+ඔබේ පිළිතුරු ගැඹුරු, ශිල්පගතව වඩාත් සඳහන් කළ පන්திමතු ශෛලිය විසින් පසුගිය ප්‍රශ්ན ශිල්පිතයි.
+සෑම පිළිතුරුවෙන්ම රසායනිකමුහුණතවලින් පැහැදිලි කිරීම් සහ විස්තරිත විස්තර ඇතුලත් කරන්න.`
+        };
+
+        let isSystemActivated = false;
+
+        // ===== DOM ELEMENTS =====
+        const chatMessagesDiv = document.getElementById('chatMessages');
+        const messageInput = document.getElementById('messageInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const activationBtn = document.getElementById('activationBtn');
+        const activationModal = document.getElementById('activationModal');
+        const closeModal = document.getElementById('closeModal');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const confirmBtn = document.getElementById('confirmBtn');
+        const activationCodeInput = document.getElementById('activationCode');
+        const cameraBtn = document.getElementById('cameraBtn');
+        const cameraInput = document.getElementById('cameraInput');
+
+        // ===== ACTIVATION MODAL ===== 
+        activationBtn.addEventListener('click', () => {
+            activationModal.classList.add('active');
+            activationCodeInput.focus();
+        });
+
+        closeModal.addEventListener('click', () => activationModal.classList.remove('active'));
+        cancelBtn.addEventListener('click', () => activationModal.classList.remove('active'));
+
+        confirmBtn.addEventListener('click', () => {
+            const code = activationCodeInput.value.trim();
+            if (code.length === 19 && code.match(/^\d{4}-\d{4}-\d{4}-\d{4}$/)) {
+                isSystemActivated = true;
+                activationModal.classList.remove('active');
+                activationCodeInput.value = '';
+                showNotification('✅ System Activated Successfully!');
+            } else {
+                alert('Invalid activation code format. Please use: 1234-5678-9012-3456');
+            }
+        });
+
+        // Allow Enter key to activate
+        activationCodeInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') confirmBtn.click();
+        });
+
+        // ===== CAMERA / IMAGE UPLOAD =====
+        cameraBtn.addEventListener('click', () => cameraInput.click());
+
+        cameraInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = async (event) => {
+                const base64 = event.target.result;
+                const imageData = base64.split(',')[1];
+                
+                addMessage('user', `📸 Image uploaded: ${file.name}`);
+                await sendImageToAI(imageData, file.type);
+            };
+            reader.readAsDataURL(file);
+            
+            cameraInput.value = '';
+        });
+
+        // ===== AUTO-RESIZE TEXTAREA =====
+        messageInput.addEventListener('input', () => {
+            messageInput.style.height = 'auto';
+            messageInput.style.height = Math.min(messageInput.scrollHeight, 100) + 'px';
+        });
+
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // ===== SEND MESSAGE =====
+        sendBtn.addEventListener('click', sendMessage);
+
+        async function sendMessage() {
+            if (!isSystemActivated) {
+                alert('⚠️ Please activate the system first using System Activation button.');
+                return;
+            }
+
+            const message = messageInput.value.trim();
+            if (!message) return;
+
+            addMessage('user', message);
+            messageInput.value = '';
+            messageInput.style.height = 'auto';
+
+            try {
+                const response = await queryAI(message);
+                addMessage('ai', response);
+            } catch (error) {
+                addMessage('ai', `❌ Error: ${error.message}`);
+            }
+        }
+
+        // ===== ADD MESSAGE TO CHAT =====
+        function addMessage(role, content) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${role}`;
+
+            const bubble = document.createElement('div');
+            bubble.className = 'message-bubble';
+
+            // Handle image URLs
+            if (content.includes('data:image') || content.includes('http')) {
+                const textContent = content.split('![')[0].trim();
+                if (textContent) {
+                    bubble.textContent = textContent;
+                }
+                const imgMatch = content.match(/!\[.*?\]\((.*?)\)/);
+                if (imgMatch) {
+                    const img = document.createElement('img');
+                    img.src = imgMatch[1];
+                    img.className = 'message-image';
+                    bubble.appendChild(img);
+                }
+            } else {
+                bubble.innerHTML = content;
+            }
+
+            messageDiv.appendChild(bubble);
+            chatMessagesDiv.appendChild(messageDiv);
+
+            // Render KaTeX if present
+            setTimeout(() => {
+                renderMathInElement(bubble, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ]
+                });
+            }, 0);
+
+            // Scroll to bottom
+            chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
+        }
+
+        // ===== QUERY AI API =====
+        async function queryAI(message) {
+            const requestBody = {
+                contents: [
+                    {
+                        role: 'user',
+                        parts: [
+                            {
+                                text: CONFIG.SYSTEM_PROMPT + '\n\nUser question: ' + message
+                            }
+                        ]
+                    }
+                ],
+                generationConfig: {
+                    temperature: 0.7,
+                    topK: 40,
+                    topP: 0.95,
+                    maxOutputTokens: 2048,
+                }
+            };
+
+            const response = await fetch(`${CONFIG.API_URL}?key=${CONFIG.API_KEY}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(requestBody)
+            });
+
+            if (!response.ok) {
+                throw new Error(`API Error: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            return data.candidates[0].content.parts[0].text;
+        }
+
+        // ===== SEND IMAGE TO AI =====
+        async function sendImageToAI(base64Data, mimeType) {
+            const requestBody = {
+                contents: [
+                    {
+                        role: 'user',
+                        parts: [
+                            {
+                                inline_data: {
+                                    mime_type: mimeType,
+                                    data: base64Data
+                                }
+                            },
+                            {
+                                text: 'Please analyze this chemistry image and explain it in detail. ' + CONFIG.SYSTEM_PROMPT
+                            }
+                        ]
+                    }
+                ]
+            };
+
+            try {
+                const response = await fetch(`${CONFIG.API_URL}?key=${CONFIG.API_KEY}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(requestBody)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API Error: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                addMessage('ai', data.candidates[0].content.parts[0].text);
+            } catch (error) {
+                addMessage('ai', `❌ Error processing image: ${error.message}`);
+            }
+        }
+
+        // ===== NOTIFICATION =====
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: linear-gradient(135deg, var(--primary), var(--secondary));
+                color: var(--white);
+                padding: 15px 25px;
+                border-radius: 8px;
+                border-left: 4px solid var(--gold);
+                z-index: 2000;
+                animation: slideInDown 0.4s ease-out;
+                font-weight: 600;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // ===== INITIAL LOAD =====
+        window.addEventListener('load', () => {
+            console.log('Mubra AI 8.v1 loaded successfully');
+            showNotification('🎓 Welcome to Mubra AI 8.v1');
+        });
+    </script>
+</body>
+</html>
